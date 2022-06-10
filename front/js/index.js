@@ -1,49 +1,56 @@
+function getAllProducts (){
+    const items = document.getElementById('items');
+    console.log(items);
 
-//Récupération du tableau de produits disponibles
-getProducts();
+    // Récupérez des données d'un service web
+    fetch("http://localhost:3000/api/products")
+        .then(function(res) {
+            if (res.ok) {
+                return res.json();
+            }
+        })
 
 
-//Création des articles via la liste récupérée précédemment
-creationProducts();
+        .then(function(products) {
+            console.log(products);
 
-async function getProducts() {
-    let products = await fetch('http://localhost:3000/api/products');
-    console.log("Les produits ont été récupérés !")
-    return products.json();
-}
-
-async function creationProducts() {
-    let result = await getProducts()
-        .then( (product) => {
-            for (let i=0; i < product.length; i++) {
-
+            // Insertion des l'éléments
+            for (let product of products){
                 // Insertion de l'élément "a"
-                let productLink = document.createElement("a");
-                document.querySelector(".items").appendChild(productLink);
-                productLink.href = `product.html?id=${product[i]._id}`;
+                const linkProduct = document.createElement("a");
+                items.appendChild(linkProduct);
+                linkProduct.setAttribute("href", `./product.html?id=${product._id}`)
 
                 // Insertion de l'élément "article"
-                let productArticle = document.createElement("article");
-                productLink.appendChild(productArticle);
+                const articleProduct = document.createElement("article");
+                linkProduct.appendChild(articleProduct);
 
-                // Insertion de l'image
-                let productImg = document.createElement("img");
-                productArticle.appendChild(productImg);
-                productImg.src = product[i].imageUrl;
-                productImg.alt = product[i].altTxt;
+                // Insertion de l'élément "img"
+                const imageProduct = document.createElement("img");
+                articleProduct.appendChild(imageProduct);
+                imageProduct.setAttribute("src", product.imageUrl);
+                imageProduct.setAttribute("alt", product.altTxt);
 
-                // Insertion du titre "h3"
-                let productName = document.createElement("h3");
-                productArticle.appendChild(productName);
-                productName.classList.add("productName");
-                productName.innerHTML = product[i].name;
+                // Insertion de l'élément "h3"
+                const titreProduct = document.createElement("h3");
+                articleProduct.appendChild(titreProduct);
+                titreProduct.classList.add("productName");
+                titreProduct.textContent = product.name;
 
-                // Insertion de la description "p"
-                let productDescription = document.createElement("p");
-                productArticle.appendChild(productDescription);
-                productDescription.classList.add("productName");
-                productDescription.innerHTML = product[i].description;
+                // Insertion de l'élément "p"
+                const descriptionProduct = document.createElement("p");
+                articleProduct.appendChild(descriptionProduct);
+                descriptionProduct.classList.add("productDescription");
+                descriptionProduct.textContent = product.description;
+
+                console.log(items);
             }
+        })
+
+        .catch(function(error){
+            console.log('opération à échoué : '+ error.message);
         });
-    console.log("Les produits ont été crées !");
 }
+
+getAllProducts();
+

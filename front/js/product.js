@@ -71,6 +71,8 @@ function addToCart() {
                 console.log("productCart egal :");
                 console.log(productCart);
                 console.log("fin productCart");
+
+
                 //Si le produit commandé n'est pas dans le panier
             } else {
 
