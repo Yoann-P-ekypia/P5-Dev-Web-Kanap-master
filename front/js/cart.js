@@ -178,6 +178,7 @@ function getForm() {
     let charRegExp = new RegExp("^[a-zA-Z ,.'-]+$");
     let addressRegExp = new RegExp("^[0-9]{1,3}(?:(?:[,. ]){1}[-a-zA-Zàâäéèêëïîôöùûüç]+)+");
 
+
     // Ecoute de la modification du prénom
     form.firstName.addEventListener('change', function() {
         validFirstName(this);
@@ -265,13 +266,44 @@ function postForm() {
     order.addEventListener('click', (event) => {
         event.preventDefault();
 
+        let firstName = document.getElementById('firstName').value;
+        let lastName  = document.getElementById('lastName').value;
+        let address  = document.getElementById('address').value;
+        let city  =  document.getElementById('city').value;
+        let email  =  document.getElementById('email').value;
+
+        // messages d'erreur
+
+        if (firstName === "") {
+            alert("Veullez renseinger votre prénom");
+            return;}
+
+        if (lastName === "") {
+            alert("Veullez renseinger votre nom");
+            return;}
+
+        if (address === "") {
+            alert("Veullez renseinger votre adresse");
+            return;}
+
+        if (city === "") {
+            alert("Veullez renseinger votre ville");
+            return;}
+
+        if (email === "") {
+            alert("Veullez renseinger votre email");
+            return;}
+
+
         // je récupère les données du formulaire dans un objet
+
+
         const contact = {
-            firstName : document.getElementById('firstName').value,
-            lastName : document.getElementById('lastName').value,
-            address : document.getElementById('address').value,
-            city : document.getElementById('city').value,
-            email : document.getElementById('email').value
+            firstName : firstName,
+            lastName : lastName,
+            address : address,
+            city : city,
+            email : email
         }
 
         //Construction d'un array d'id depuis le local storage
