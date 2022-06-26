@@ -13,8 +13,11 @@ imgProduct.appendChild(img);
 //Récupération de l'article grace a l'id + affichage des données de ce dernier
 getArticle();
 
+// Modifier directement le contenu de notre élément avec innerHTML
 //Récupération de l'article grace a l'id + affichage des données de ce dernier
+
 async function getArticle() {
+    //await permet d'attendre la résolution d'une promesse (Promise).
     await fetch("http://localhost:3000/api/products/" + idProduct)
         .then((response) => response.json())
         .then(product => {
@@ -76,6 +79,7 @@ function addToCart() {
                 console.log(resultFind);
                 console.log("fin result find");
 
+               // Nouvelle quantité
                 if (resultFind) {
                     console.log("resultfind kanap = " + resultFind.qtyKanap);
                     console.log("qtykanap = " + qtyKanap);

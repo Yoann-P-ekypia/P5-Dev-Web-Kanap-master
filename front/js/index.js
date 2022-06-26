@@ -1,8 +1,9 @@
+// retrouver un éléménent avec getElementById
 function getAllProducts (){
     const items = document.getElementById('items');
     console.log(items);
 
-    // Récupérez des données d'un service web
+    // Récupérez des données d'un service web avec Fetch
     fetch("http://localhost:3000/api/products")
         .then(function(res) {
             if (res.ok) {
@@ -14,7 +15,10 @@ function getAllProducts (){
         .then(function(products) {
             console.log(products);
 
-            // Insertion des l'éléments
+            // Modifiez les attributs avec setAttribute
+            // Insertion des l'éléments avec createElement
+            // Ajoutez des enfants avec appendChild
+
             for (let product of products){
                 // Insertion de l'élément "a"
                 const linkProduct = document.createElement("a");
@@ -46,7 +50,7 @@ function getAllProducts (){
                 console.log(items);
             }
         })
-
+        // renvoie un objet Promise et ne traite que des cas où la promesse initiale est rejetée.
         .catch(function(error){
             console.log('opération à échoué : '+ error.message);
         });

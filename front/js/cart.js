@@ -12,7 +12,9 @@ if (!productLocalStorage) {
 
     for (let i=0; i < productLocalStorage.length; i++) {
 
+
         // Création de la balise "article" et insertion dans la section
+        // Retourne le premier Element dans le document correspondant au sélecteur querySelector
         let productArticle = document.createElement("article");
         document.querySelector("#cart__items").appendChild(productArticle);
         productArticle.className = "cart__item";
@@ -80,6 +82,7 @@ if (!productLocalStorage) {
         productQuantity.setAttribute("max", "100");
         productQuantity.setAttribute("name", "itemQuantity");
 
+
         // Insertion de l'élément "div"
         let productItemContentSettingsDelete = document.createElement("div");
         productItemContentSettings.appendChild(productItemContentSettingsDelete);
@@ -100,7 +103,7 @@ if (!productLocalStorage) {
             // filtrer l'élément cliqué par le bouton supprimer
             productLocalStorage = productLocalStorage.filter( elt => elt.idKanap !== deleteId || elt.colorKanap !== deleteColor);
 
-            // envoyer les nouvelles données dans le localStorage
+            // envoyer les nouvelles données dans le localStorage avec JSON.stringify
             localStorage.setItem('cart', JSON.stringify(productLocalStorage));
 
             // avertir de la suppression et recharger la page
@@ -179,7 +182,7 @@ function getForm() {
     let addressRegExp = new RegExp("^[0-9]{1,3}(?:(?:[,. ]){1}[-a-zA-Zàâäéèêëïîôöùûüç]+)+");
 
 
-    // Ecoute de la modification du prénom
+    // Ecoute de la modification du nom
     form.firstName.addEventListener('change', function() {
         validFirstName(this);
     });
@@ -189,17 +192,17 @@ function getForm() {
         validLastName(this);
     });
 
-    // Ecoute de la modification du prénom
+    // Ecoute de la modification de l'adresse
     form.address.addEventListener('change', function() {
         validAddress(this);
     });
 
-    // Ecoute de la modification du prénom
+    // Ecoute de la modification de la ville
     form.city.addEventListener('change', function() {
         validCity(this);
     });
 
-    // Ecoute de la modification du prénom
+    // Ecoute de la modification de l'email
     form.email.addEventListener('change', function() {
         validEmail(this);
     });
