@@ -7,7 +7,7 @@ mainProductRecap();
 
 function getCart() { //récupére le panier 
     let productLocalStorage = JSON.parse(localStorage.getItem("cart"));
-    return cart;
+    return productLocalStorage;
 }
 
 function travelAndInsertInfos(productLocalStorage){
@@ -147,8 +147,9 @@ function getTotals(){
 
     // Récupération du prix total
     totalPrice = 0;
+	const cartContent = getCart();
     for (var i = 0; i < myLength; ++i) {
-        totalPrice += (elemsQtt[i].valueAsNumber * productLocalStorage[i].priceKanap);
+        totalPrice += (elemsQtt[i].valueAsNumber * cartContent[i].priceKanap);
     }
 
     let productTotalPrice = document.getElementById('totalPrice');
@@ -159,21 +160,21 @@ getTotals();
 
 function modifyQtt() {
     let qttModif = document.querySelectorAll(".itemQuantity");
-
+	const cartContent = getCart();
     for (let k= 0; k < qttModif.length; k++){
         qttModif[k].addEventListener("change" , (event) => {
             event.preventDefault();
 
             //Selection de l'element à modifier en fonction de son id ET sa couleur
-            let quantityModif = productLocalStorage[k].qtyKanap;
+            let quantityModif = cartContent[k].qtyKanap;
             let qttModifValue = qttModif[k].valueAsNumber;
 
-            const resultFind = productLocalStorage.find((el) => el.qttModifValue !== quantityModif);
+            const resultFind = cartContent.find((el) => el.qttModifValue !== quantityModif);
 
             resultFind.qtyKanap = qttModifValue;
-            productLocalStorage[k].qtyKanap = resultFind.qtyKanap;
+            cartContent[k].qtyKanap = resultFind.qtyKanap;
 
-            localStorage.setItem("cart", JSON.stringify(productLocalStorage));
+            localStorage.setItem("cart", JSON.stringify(cartContent));
 
             // refresh rapide
             location.reload();
@@ -362,8 +363,9 @@ function postForm() {
 
         //Construction d'un array d'id depuis le local storage
         let products = [];
-        for (let i = 0; i < productLocalStorage.length; i++) {
-            products.push(productLocalStorage[i].idKanap);
+		const cartContent = getCart();
+        for (let i = 0; i < cartContent.length; i++) {
+            products.push(cartContent[i].idKanap);
         }
         console.log(products);
 
