@@ -264,6 +264,68 @@ function getForm() {
 }
 getForm();
 
+function validUserInfos() { //valide les infos entrées par l'utilisateur grâce à des regEx
+    
+    let myForm = document.getElementsByClassName("cart__order__form");
+    
+    const firstName = document.getElementById('firstName');
+    const lastName = document.getElementById('lastName');
+    const address = document.getElementById('address');
+    const city = document.getElementById('city');
+    const email = document.getElementById('email');
+    
+    myForm[0].addEventListener('submit', function(e) {
+        
+        e.preventDefault();
+        
+        let fullNameRegex = /^[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]+$/u;
+        if (fullNameRegex.test(firstName.value) == false) {
+            const firstNameErrorMsg = document.getElementById('firstNameErrorMsg');
+            firstNameErrorMsg.innerHTML = "Le champ prénom contient des caractères non autorisés";
+        } else {
+            firstNameErrorMsg.innerHTML = "";
+        }
+        
+        if (fullNameRegex.test(lastName.value) == false) {
+            const lastNameErrorMsg = document.getElementById('lastNameErrorMsg');
+            lastNameErrorMsg.innerHTML = "Le champ nom contient des caractères non autorisés";
+        } else {
+           lastNameErrorMsg.innerHTML = "";
+        }   
+        
+        let addressRegex = /^\s*\S+(?:\s+\S+){2}/;
+        if (addressRegex.test(address.value) == false) {
+            const addressErrorMsg = document.getElementById('addressErrorMsg');
+            addressErrorMsg.innerHTML = "Le champ adresse n'est pas valide"
+        } else {
+            addressErrorMsg.innerHTML = "";
+        }
+
+        let cityRegex = /^[a-zA-Z]+(?:[\s-][a-zA-Z]+)*$/;
+        if (cityRegex.test(city.value) == false) {  
+            const cityErrorMsg = document.getElementById('cityErrorMsg');
+            cityErrorMsg.innerHTML = "Le champ ville n'est pas valide"; 
+        } else {
+            cityErrorMsg.innerHTML = "";
+        }
+
+        let emailRegex = /\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}\b/;
+        if (emailRegex.test(email.value) == false) {
+            const emailErrorMsg = document.getElementById('emailErrorMsg');
+            emailErrorMsg.innerHTML = "Le champ email n'est pas valide"
+        } else {
+            emailErrorMsg.innerHTML = "";
+        }
+
+        if (fullNameRegex.test(firstName.value) && fullNameRegex.test(lastName.value) && addressRegex.test(address.value) && cityRegex.test(city.value) && emailRegex.test(email.value) && getCart().length) {
+            requestOrder();
+        }
+    })
+
+}
+
+validUserInfos();
+
 function postForm() {
     const order = document.getElementById('order');
     order.addEventListener('click', (event) => {
@@ -277,7 +339,7 @@ function postForm() {
 
         // messages d'erreur
 
-        if (firstName === "") {
+        /*if (firstName === "") {
             alert("Veullez renseinger votre prénom");
             return;}
 
@@ -295,7 +357,7 @@ function postForm() {
 
         if (email === "") {
             alert("Veullez renseinger votre email");
-            return;}
+            return;}*/
 
 
         // je récupère les données du formulaire dans un objet
@@ -330,7 +392,8 @@ function postForm() {
             method: 'POST',
             body: JSON.stringify(sendFormData),
             headers: {
-                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
             }
         };
 
@@ -339,7 +402,12 @@ function postForm() {
             .then(data => {
                 localStorage.setItem('orderId', data.orderId);
                 document.location.href = 'confirmation.html?id='+ data.orderId;
-            });
+            })
+    
+            .catch(function(error) {
+                alert('Erreur');
+                console.log('Il y a eu un problème avec l\'opération fetch: ' + error.message);
+            })  
 
     }); // fin eventListener postForm
 } // fin envoi du formulaire postForm
