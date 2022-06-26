@@ -7,7 +7,7 @@ mainProductRecap();
 
 function getCart() { //récupére le panier 
     let productLocalStorage = JSON.parse(localStorage.getItem("cart"));
-    return cart;
+    return productLocalStorage;
 }
 
 function travelAndInsertInfos(productLocalStorage){

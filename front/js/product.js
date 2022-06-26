@@ -49,7 +49,7 @@ function addToCart() {
 
     // message d'erreur quantité
     if (quantityChoice.value == 0 || quantityChoice.value > 100) {
-        alert("Veullez renseinger une quanté supérieur à 0 et infériuer ou égale à 100");
+        alert("Veullez renseinger une quantité supérieur à 0 et inférieur ou égale à 100");
         return;
     }else{
 
